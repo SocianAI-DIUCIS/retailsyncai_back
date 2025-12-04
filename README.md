@@ -53,125 +53,14 @@ OR
 pip install -r requirements.txt
 ```
 
-#### Or for Starting the Project from Scratch:
-
-If starting from scratch:
-django-admin startproject backend.
-
-Create the API app:
-
+### 3. For first Time, Migration and Seeding
 ```bash
-python manage.py startapp api
+#### python manage.py migrate_es
+#### python manage.py seed_es
 ```
 
-### 3. Update settings.py
 
-Add installed apps:
-
-```bash
-INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-
-    # Third-party apps
-    "rest_framework",
-    "corsheaders",
-    "rest_framework_simplejwt",
-
-    # Your app
-    "api",
-]
-```
-
-Add middleware:
-
-```bash
-MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-]
-```
-
-Enable CORS (development mode):
-
-```bash
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
-```
-
-Configure DRF default authentication:
-
-```bash
-REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    )
-}
-```
-
-### 4. Environment Variables (.env)
-
-Create a .env file inside your backend folder:
-
-```bash
-SECRET_KEY=your-secret-key-here
-DEBUG=True
-ELASTICSEARCH_HOST=http://localhost:9200
-```
-
-Load it in settings.py:
-
-```bash
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-
-SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = os.getenv("DEBUG") == "True"
-
-ELASTICSEARCH_HOST = os.getenv("ELASTICSEARCH_HOST")
-```
-
-### 5. JWT Configuration
-
-Inside settings.py, add:
-
-```bash
-from datetime import timedelta
-
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-    "ALGORITHM": "HS256",
-    "SIGNING_KEY": SECRET_KEY,
-}
-```
-
-### 6. Elasticsearch Client Setup
-
-Inside your Django app, create:
-
-```bash
-api/es_client.py:
-from elasticsearch import Elasticsearch
-from django.conf import settings
-
-es = Elasticsearch(settings.ELASTICSEARCH_HOST)
-```
-
-### 7. API Endpoints Example
+### 4. API Endpoints Example
 
 #### Authentication
 - POST /api/auth/register/ — User registration
@@ -192,16 +81,7 @@ es = Elasticsearch(settings.ELASTICSEARCH_HOST)
 - PUT /api/articles/<id>/
 - DELETE /api/articles/<id>/
 
-### 8. Run Database Migrations
-
-Apply Django migrations:
-
-```bash
-python manage.py makemigrations
-python manage.py migrate
-```
-
-### 9. Run the Development Server
+### 5. Run the Development Server
 
 Start Django API:
 
@@ -213,7 +93,7 @@ Backend API will be live at:
 
 http://localhost:8000/api/
 
-### 10. Testing Elasticsearch Connection
+### 6. Testing Elasticsearch Connection
 
 #### Test ES availability:
 
@@ -224,7 +104,7 @@ print(es.info())
 
 #### If ES is running at localhost:9200, you should see cluster info.
 
-### 11. Production Build Notes
+### 7. Production Build Notes
 
 For production:
 
